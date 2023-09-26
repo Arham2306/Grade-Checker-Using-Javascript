@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Checker</title>
+</head>
+<body>
+    <form onsubmit="checkGrade(); return false">
+    Enter your total marks:
+    <input type="number" required id="input1" placeholder="850">
+    <br>
+    <br>
+    Enter your obtained marks:
+    <input type="number" required id="input2">
+    <br>
+    <br>
+    <button type="submit">Check</button>
+</form>
+
+    <h3 id="sumResult" style="color:green"></h3>
+    <p id="validationText" style="color: rgb(210, 0, 0)"></p>
+
+    <p>
+        Grade Distribution:
+        <ul>
+            <li> Passing percentage is 50</li>
+            <li>90%-99: Grade A1</li>
+            <li>80%-89: Grade A</li>
+            <li>70%-79: Grade B</li>
+            <li>60%-69: Grade C</li>
+            <li>50%-59: Grade D</li>
+            <li>Below 50% is considered Fail</li>
+        </ul>
+
+    </p>
+
+    <script>
+        function checkGrade() {
+
+            let TotalMarks = document.querySelector('#input1').value;
+            console.log("TotalMarks",TotalMarks);
+
+            let obtainedMarks = document.querySelector('#input2').value;
+            console.log("obtainedMarks",obtainedMarks);
+
+            TotalMarks = Number(TotalMarks);
+            obtainedMarks = Number(obtainedMarks);
+
+            let text = "";
+            let result = "";
+
+            if (isNaN(TotalMarks)) {
+                text = "Please enter a valid number";
+            }
+
+            if (isNaN(obtainedMarks)) {
+                text = "Please enter a valid number";
+            }
+
+            if (TotalMarks < 1) {
+                text = "Please enter a positive value for Total Marks";
+            }
+
+            if (obtainedMarks < 0) {
+                text = "Please enter a positive value for Obtained Marks";
+            } 
+
+            if (TotalMarks < obtainedMarks) {
+                text = "Obtained Marks cannot be greater than Total Marks";
+            }
+
+            if (text) {
+                document.querySelector('#validationText').innerText = text;
+                return;
+            } else {
+                document.querySelector('#validationText').innerText = "";
+            }
+
+            let percentage = (obtainedMarks / TotalMarks) * 100;
+            console.log("percentage",percentage);
+
+            if (percentage < 50) {
+                result = "Fail";
+            } else if (percentage < 60 && percentage >= 50){
+                result = "Grade D";
+            }  
+            else if ( percentage > 59 && percentage < 70 ) {
+                result = "Grade C";
+            } else if ( percentage > 69 && percentage < 80 ) {
+                result = "Grade B";
+            } else if ( percentage > 79 && percentage < 90) {
+                result = "Grade A";
+            } else if ( percentage > 89 && percentage <= 100) {
+                result = "Grade A1";
+            }
+
+            document.querySelector('#sumResult').innerText = `${percentage}% - ${result}`;
+
+
+        }
+    </script>
+    
+</body>
+</html>
